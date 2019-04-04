@@ -1,7 +1,14 @@
-import os,re,math, subprocess
+import os,re, subprocess, paramiko
 
-# ipconfig_var = subprocess.check_output('ifconfig -a', shell=True).decode()
-ipconfig_var = subprocess.check_output(["ipconfig"]).decode()
+
+def main():
+if os.name == 'posix':
+    print(os.name)
+    ipconfig_var = subprocess.run(['ifconfig', '-a'], capture_output=True).stdout.decode()
+elif os.name == 'nt':
+    print(os.name)
+    ipconfig_var = subprocess.run(["ipconfig", '/all'], capture_output=True).stdout.decode()
+    print(ipconfig_var)
 
 # print(str(ipconfig_var))
 
