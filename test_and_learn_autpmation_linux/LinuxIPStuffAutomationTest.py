@@ -27,7 +27,7 @@ def ip_grab_list(os_type):
 
 def file_check(file_name):
     if file_name == '' and os.path.exists('./log_file') is not True or os.path.getsize('./log_file') == 0:
-        file = open('log_file', 'w')
+        file = open('log_file.txt', 'w')
         return file
     if file_name == '' and os.path.exists('./log_file') is True or os.path.getsize('./log_file') != 0:
         file = open('log_file', 'a')

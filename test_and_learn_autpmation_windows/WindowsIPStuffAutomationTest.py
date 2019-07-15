@@ -1,14 +1,14 @@
-import os,re, subprocess, paramiko
+import os,re, subprocess
 
 
 def main():
-if os.name == 'posix':
-    print(os.name)
-    ipconfig_var = subprocess.run(['ifconfig', '-a'], capture_output=True).stdout.decode()
-elif os.name == 'nt':
-    print(os.name)
-    ipconfig_var = subprocess.run(["ipconfig", '/all'], capture_output=True).stdout.decode()
-    print(ipconfig_var)
+    if os.name == 'posix':
+        print(os.name)
+        ipconfig_var = subprocess.run(['ifconfig', '-a'], capture_output=True).stdout.decode()
+    elif os.name == 'nt':
+        print(os.name)
+        ipconfig_var = subprocess.run(["ipconfig", '/all'], capture_output=True).stdout.decode()
+        print(ipconfig_var)
 
 # print(str(ipconfig_var))
 
