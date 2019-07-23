@@ -2,25 +2,30 @@ import os,subprocess,re,glob,datetime
 
 def main():
     path = get_paths()
-    test(path)
-    # win_dir(path)
-
-def win_dir(path):
-
-    type(os.walk(path))
-    for root, dirs, files in os.walk(path):
-
-        print(dict)
+    globs= win_files(path)
+    data = make_file_attri_dict(globs)
+    for (file,attri_list) in data.items():
+        print(file)
+        print(attri_list)
 
 
-def test(path):
 
-    walk_var = list(os.walk(path))
-    print(walk_var)
-    glob_var=glob.glob(path + r'\**\*', recursive=True)
-    print(glob_var)
-    for item in glob_var:
-        print(datetime.datetime.fromtimestamp(os.stat(item).st_atime), os.stat(item).st_size)
+def win_files(path):
+    file_globs = glob.glob(path+r'\**\*',recursive=True)
+    print(file_globs)
+    return file_globs
+
+
+#
+# def test(path):
+#     glob_var=glob.glob(path + r'\**\*', recursive=True)
+#     print(glob_var)
+#     for item in glob_var:
+#         print(datetime.datetime.fromtimestamp(os.stat(item).st_atime), os.stat(item).st_size)
+
+
+
+
 def get_paths():
     path=input('enter the path: ')
     path = path_check(path , check=1)
@@ -35,7 +40,11 @@ def path_check(path,check=None):
             path = input(f'that path \"{path}\" does not exist, try again: ')
     return path
 
-def file_listings(directory):
-    print()
+def make_file_attri_dict(globbed_files):
+    data={}
+    for item in globbed_files:
+        data[item] = [(os.stat(item).st_size/1024), str(datetime.datetime.fromtimestamp(os.stat(item).st_atime))]
+    return data
+
 
 main()
