@@ -1,4 +1,4 @@
-import os,subprocess,re
+import os,subprocess,re,glob,datetime
 
 def main():
     path = get_paths()
@@ -16,27 +16,11 @@ def win_dir(path):
 def test(path):
 
     walk_var = list(os.walk(path))
-    # for item in walk_var:
-    #     print(item)
-    i0 = walk_var[0]
-    print(i0)
-    i1 = walk_var[1]
-    print(i1)
-    i3 = walk_var[3]
-    print(i3)
-    i4 = walk_var[4]
-    print(i4)
-    i5 = walk_var[5]
-    print(i5)
-    i6 = walk_var[6]
-    print(i6)
-    i7 = walk_var[7]
-    print(i7)
-    i8 = walk_var[8]
-    print(i8)
-    i9 = walk_var[9]
-    print(i9)
-
+    print(walk_var)
+    glob_var=glob.glob(path + r'\**\*', recursive=True)
+    print(glob_var)
+    for item in glob_var:
+        print(datetime.datetime.fromtimestamp(os.stat(item).st_atime), os.stat(item).st_size)
 def get_paths():
     path=input('enter the path: ')
     path = path_check(path , check=1)
