@@ -48,3 +48,8 @@ def make_file_attri_dict(globbed_files):
 
 
 main()
+
+# TODO: get openxls or XlsxWriter and test how to make the final file
+# todo: be sure to make the file names of the xlsx file based off the time it was run and the path name by replacing
+#  the /s with -s
+
