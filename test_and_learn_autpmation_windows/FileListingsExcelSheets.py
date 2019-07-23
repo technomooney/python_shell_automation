@@ -1,11 +1,18 @@
-import subprocess
-def setup():
-    if os.path.exists('./do.not.delete.done_setup') is False:
+import subprocess,re
+def setup(): #this is for installing the required module for when a user just open the py file in explorer and tell the user they need python 3.7>=
+    if os.path.exists('./do.not.delete.done_setup.log') is False:
+        version = subprocess.run(['python','--version'],capture_output=True).stdout.decode()
+        ver_reg = re.compile(r'([3-9].\d)')
+        version_num = float(re.search(ver_reg,version).group(1))
+        required_version = 3.7
+        if version_num < required_version:
+            nice_quit(err=f'found a python version lower then the accepted version of {required_version} or higher: {version}')
+
         output = subprocess.run(['pip','install','--user','xlsxwriter'],capture_output=True).stdout.decode()
-        out= open('do.not.delete.done_setup','w')
+        out= open('do.not.delete.done_setup.log','w')
         out.write(output)
         input(f'setup needed to be done, i installed xlsxwriter to use for this program... the file called \'do.not.del'
-              f'ete.done_setup\' \nis there to tell thss proggram the setup was done already and theere is no need to do '
+              f'ete.done_setup\' \nis there to tell thss proggram the setup was done already and theere is no need to do'
               f'it again! do not remove it unless \nyou want to rthe setup function again... \n\n press enter to conttinue')
 
 
@@ -21,17 +28,13 @@ def main():
     path = get_paths()
     globs= win_files(path)
     data = make_file_attri_dict(globs)
-    # for (filename,filedata) in data.items():
-    #     print(filename)
-    #     print(filedata)
     save_xls(path,data)
     restart = input('\n\ndo you want to do another directory? to exit press \'n\' otherwise just press enter: ').lower()
     if restart != 'n':
         main()
     else:
-        print('thanks for using the program made by Mary Mooney')
-        time.sleep(5)
-        quit()
+        nice_quit()
+
 
 def win_files(path):
     file_globs = glob.glob(path+r'\**\*',recursive=True)
@@ -71,6 +74,7 @@ def path_check(path,check=None):
             path = input(f'that path \"{path}\" does not exist, try again: ')
     return path
 
+
 def make_file_attri_dict(globbed_files):
     data={}
     data['file name'] = ['file path','file size in MB','last access time','Creation time']
@@ -83,10 +87,18 @@ def make_file_attri_dict(globbed_files):
 
     return data
 
+def nice_quit(err=None):
+    if err !=None:
+        print(err)
+        print('Sorry for any inconvenience.')
+    print('thanks for using the program made by Mary Mooney')
+    time.sleep(5)
+    quit()
+
 
 main()
 
-# todo: make an empty filder sheet
+# todo: make an empty folder sheet
 # todo: make it look nicer....
 
 
