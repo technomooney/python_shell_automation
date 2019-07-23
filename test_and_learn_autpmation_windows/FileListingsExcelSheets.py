@@ -1,4 +1,19 @@
-import os,glob,datetime,xlsxwriter,subprocess,time
+import subprocess
+def setup():
+    if os.path.exists('./do.not.delete.done_setup') is False:
+        output = subprocess.run(['pip','install','--user','xlsxwriter'],capture_output=True).stdout.decode()
+        out= open('do.not.delete.done_setup','w')
+        out.write(output)
+        input(f'setup needed to be done, i installed xlsxwriter to use for this program... the file called \'do.not.del'
+              f'ete.done_setup\' \nis there to tell thss proggram the setup was done already and theere is no need to do '
+              f'it again! do not remove it unless \nyou want to rthe setup function again... \n\n press enter to conttinue')
+
+
+try:
+    import os,glob,datetime,xlsxwriter,time
+except ModuleNotFoundError as err:
+    print(err)
+    setup()
 
 
 def main():
@@ -17,15 +32,6 @@ def main():
         print('thanks for using the program made by Mary Mooney')
         time.sleep(5)
         quit()
-
-def setup():
-    if os.path.exists('./do.not.delete.done_setup') is False:
-        output = subprocess.run(['python','pip','install','--user','xlsxwriter'],capture_output=True).stdout.decode()
-        out= open('do.not.delete.done_setup','w')
-        out.write(output)
-        input(f'setup needed to be done, i installed xlsxwriter to use for this program... the file called \'do.not.del'
-              f'ete.done_setup\' \nis there to tell thss proggram the setup was done already and theere is no need to do '
-              f'it again! do not remove it unless \nyou want to rthe setup function again... \n\n press enter to conttinue')
 
 def win_files(path):
     file_globs = glob.glob(path+r'\**\*',recursive=True)
