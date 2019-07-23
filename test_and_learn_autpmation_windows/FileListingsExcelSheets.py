@@ -45,6 +45,7 @@ def save_xls(path,data):
     wb = xlsxwriter.Workbook(filename)
     worksheet = wb.add_worksheet('Files and attributes')
     number= wb.add_format({'num_format':'#,##0.###'})
+    worksheet.set_column(0,10,30)
     row = 0
     col = 0
     for (file,filedata) in data.items():
@@ -78,6 +79,7 @@ def make_file_attri_dict(globbed_files):
             data[os.path.basename(item)] = [item,(os.stat(item).st_size/1024)/1024, str(datetime.datetime.fromtimestamp(os.stat(item).st_atime)),str(datetime.datetime.fromtimestamp(os.stat(item).st_ctime))]
     except Exception as err:
         print(err)
+        print('\nwe found a path/location that you dont have access or the system cant find\n')
 
     return data
 
