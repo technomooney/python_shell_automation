@@ -10,11 +10,11 @@ def main():
     wifi_profile_name = '' #add your profile that you want to connect to... use the netsh wlan show profiles command to find the names
     connected= detect_connectivity(address)
     result,flag = '',''
-	
-	
+
+
     while connected !=True or counter >= 4:
         result,flag = reconenct_to_wifi(wifi_profile_name)
-        connected = detect_connectivity(address)
+        connected = detect_connectivity(address) #if you have slow dns you can set a second arg as an INT that will set the times to ping
         counter +=1
     while flag == False:
         save_to_log(result,log_path,wifi_profile_name)
@@ -34,6 +34,8 @@ def detect_connectivity(address, times_to_ping='3'):
         return True
     else:
         return False
+
+
 def reconenct_to_wifi(wifi_profile):
     subprocess.run(['netsh','wlan','connect','name=',wifi_profile],capture_output=True).stdout.decode()
     results = subprocess.run(['netsh','wlan','connect','name=',wifi_profile],capture_output=True).stdout.decode()
@@ -42,6 +44,8 @@ def reconenct_to_wifi(wifi_profile):
         return f"compleated successfully on {datetime.datetime.now()}", True
     else:
         return results,False
+
+
 def save_to_log(result,log_path,profile_name=None):
     if os.path.exists(log_path) == True:
         log_file = open(log_path,'a')
@@ -51,5 +55,9 @@ def save_to_log(result,log_path,profile_name=None):
         print(f"errors with opening {log_path}!")
     log_file.write(f'got result [{result}] with profile [{profile_name}].\n')
     log_file.close()
+
+
 main()
 
+#TODO: make this linux compatible
+#TODO: enable automatic comand changes depending on if it is running on postx or windows OSs
