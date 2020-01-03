@@ -33,9 +33,9 @@ def win_files(path):
 
 def save_xls(path,data):
     path_append= str(os.path.expanduser('~'))+r'\Documents\.'
-    filename= path_append+str(path).replace("\\",'_').replace(':','')+f"---{str(datetime.datetime.now()).replace(':','..')}.xlsx"
-    print(f'the file will be saved in {path_append}')
-
+    filename= str(path).replace("\\",'_')+f"---{str(datetime.datetime.now()).replace(':','..')}.xlsx"
+    print(f'the file will be saved in {filename}')
+    # open(filename, 'w')
     wb = xlsxwriter.Workbook(filename)
     worksheet = wb.add_worksheet('Files and attributes')
     number= wb.add_format({'num_format':'#,##0.###'})
